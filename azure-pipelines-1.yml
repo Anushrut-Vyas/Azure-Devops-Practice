@@ -1,0 +1,60 @@
+trigger:
+  - none
+
+pool: 
+  name: Anushrut-SHA-Pool
+
+stages:
+  - stage: Terraform Init
+    jobs:
+      - job: TerraformInit-Job
+        displayName: Terraform Init-Job
+        steps:
+          - script: 
+              echo Terraform Init Completed.
+
+  - stage: Terraform FMT
+    dependsOn: Terraform Init
+    jobs:
+      - job: Terraformfmt-Job
+        displayName: Terraform fmt-Job
+        steps:
+          - script: 
+              echo Terraform fmt Completed.
+
+  - stage: Terraform validate
+    dependsOn: Terraform FMT
+    jobs:
+      - job: TerraformValidate-Job
+        displayName: Terraform Validate-Job
+        steps:
+          - script: 
+              echo Terraform validate Completed.
+
+  - stage: Terraform Plan
+    dependsOn: Terraform validate
+    jobs:
+      - job: TerraformPlan-Job
+        displayName: Terraform Plan-Job
+        steps:
+          - script: 
+              echo Terraform Plan Completed.
+
+  - stage: Terraform Approve
+    dependsOn: Terraform Plan
+    pool: server
+    jobs:
+      - job: TerraformApprove-Job
+        displayName: Terraform Approve-Job
+        steps:
+          - script: 
+              echo Terraform Approve Completed.
+
+  - stage: Terraform Apply
+    dependsOn: Terraform Approve
+    jobs:
+      - job: TerraformApply-Job
+        displayName: Terraform Apply-Job
+        steps:
+          - script: 
+              echo Terraform Apply Completed.
