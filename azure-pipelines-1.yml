@@ -9,8 +9,16 @@ stages:
       - job: TerraformInit_Job
         displayName: Terraform Init-Job
         steps:
-          - script: 
-              echo Terraform Init Completed.
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'Practice-Service-Connection-2-own'
+              backendAzureRmOverrideSubscriptionID: 'e59b3be3-2cd8-493e-a182-a6b8da13eccc'
+              backendAzureRmResourceGroupName: 'RG_Anu'
+              backendAzureRmStorageAccountName: 'storageaccountanu1'
+              backendAzureRmContainerName: 'pipelingpracticecontainer'
+              backendAzureRmKey: 'pipelinestatefile'
 
   - stage: Terraform_FMT
     dependsOn: Terraform_Init
@@ -18,8 +26,13 @@ stages:
       - job: Terraformfmt_Job
         displayName: Terraform fmt-Job
         steps:
-          - script: 
-              echo Terraform fmt Completed.
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'custom'
+              outputTo: 'console'
+              customCommand: 'terraform fmt'
+              environmentServiceNameAzureRM: 'Practice-Service-Connection-2-own'
 
   - stage: Terraform_Validate
     dependsOn: Terraform_FMT
@@ -27,8 +40,10 @@ stages:
       - job: TerraformValidate_Job
         displayName: Terraform Validate-Job
         steps:
-          - script: 
-              echo Terraform validate Completed.
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
 
   - stage: Terraform_Plan
     dependsOn: Terraform_Validate
@@ -36,24 +51,27 @@ stages:
       - job: TerraformPlan_Job
         displayName: Terraform Plan-Job
         steps:
-          - script: 
-              echo Terraform Plan Completed.
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'Practice-Service-Connection-2-own'
 
-  - stage: Terraform_Approve
-    dependsOn: Terraform_Plan
-    # pool: server   # 'TerraformApprove_Job' is a server job, but contains task 'CmdLine' which can only run on agents. 
-    jobs:
-      - job: TerraformApprove_Job
-        displayName: Terraform Approve-Job
-        steps:
-          - script: 
-              echo Terraform Approve Completed.
+  # - stage: Terraform_Approve
+  #   dependsOn: Terraform_Plan
+  #   # pool: server   # 'TerraformApprove_Job' is a server job, but contains task 'CmdLine' which can only run on agents. 
+  #   jobs:
+  #     - job: TerraformApprove_Job
+  #       displayName: Terraform Approve-Job
+  #       steps:
+  #         - script: 
+  #             echo Terraform Approve Completed.
 
-  - stage: Terraform_Apply
-    dependsOn: Terraform_Approve
-    jobs:
-      - job: TerraformApply_Job
-        displayName: Terraform Apply-Job
-        steps:
-          - script: 
-              echo Terraform Apply Completed.
+  # - stage: Terraform_Apply
+  #   dependsOn: Terraform_Approve
+  #   jobs:
+  #     - job: TerraformApply_Job
+  #       displayName: Terraform Apply-Job
+  #       steps:
+  #         - script: 
+  #             echo Terraform Apply Completed.
