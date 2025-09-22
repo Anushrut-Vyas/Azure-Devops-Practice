@@ -55,6 +55,17 @@ stages:
           - task: TerraformTask@5
             inputs:
               provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'Practice-Service-Connection-2-own'
+              backendAzureRmOverrideSubscriptionID: 'e59b3be3-2cd8-493e-a182-a6b8da13eccc'
+              backendAzureRmResourceGroupName: 'RG_Anu'
+              backendAzureRmStorageAccountName: 'storageaccountanu1'
+              backendAzureRmContainerName: 'pipelingpracticecontainer'
+              backendAzureRmKey: 'pipelinestatefile'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/VM-via-Module/parent-module/env-dev'
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
               command: 'validate'
 
   - stage: Terraform_Plan
@@ -63,6 +74,17 @@ stages:
       - job: TerraformPlan_Job
         displayName: Terraform Plan-Job
         steps:
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'Practice-Service-Connection-2-own'
+              backendAzureRmOverrideSubscriptionID: 'e59b3be3-2cd8-493e-a182-a6b8da13eccc'
+              backendAzureRmResourceGroupName: 'RG_Anu'
+              backendAzureRmStorageAccountName: 'storageaccountanu1'
+              backendAzureRmContainerName: 'pipelingpracticecontainer'
+              backendAzureRmKey: 'pipelinestatefile'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/VM-via-Module/parent-module/env-dev'
           - task: TerraformTask@5
             inputs:
               provider: 'azurerm'
