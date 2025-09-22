@@ -90,7 +90,7 @@ stages:
               provider: 'azurerm'
               command: 'plan'
               environmentServiceNameAzureRM: 'Practice-Service-Connection-2-own'
-
+              workingDirectory: '$(System.DefaultWorkingDirectory)/VM-via-Module/parent-module/env-dev'
   # - stage: Terraform_Approve
   #   dependsOn: Terraform_Plan
   #   # pool: server   # 'TerraformApprove_Job' is a server job, but contains task 'CmdLine' which can only run on agents. 
