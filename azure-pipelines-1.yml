@@ -19,6 +19,7 @@ stages:
               backendAzureRmStorageAccountName: 'storageaccountanu1'
               backendAzureRmContainerName: 'pipelingpracticecontainer'
               backendAzureRmKey: 'pipelinestatefile'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/VM-via-Module/parent-module/env-dev'
 
   - stage: Terraform_FMT
     dependsOn: Terraform_Init
